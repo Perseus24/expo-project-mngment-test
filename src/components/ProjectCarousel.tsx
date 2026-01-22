@@ -19,7 +19,6 @@ export const ProjectCarousel = enhance(({ projects} : { projects: Project[] }) =
         try {
             await database.write( async() => {
                 await project.destroyPermanently();
-
             });
             console.log(`Deleted project with id: ${project.id}`);
         } catch (error) {
@@ -31,7 +30,7 @@ export const ProjectCarousel = enhance(({ projects} : { projects: Project[] }) =
             key={`carousel-${projects.length}`}
             loop={shouldLoop}
             width={screenWidth - 32}
-            height={258}
+            height={150}
             data={projects}
             mode="parallax"
             modeConfig={{
@@ -41,11 +40,14 @@ export const ProjectCarousel = enhance(({ projects} : { projects: Project[] }) =
             scrollAnimationDuration={1000}
             autoPlay={false}
             renderItem={({item}) => (
-                <View
-                    style={{ flex: 1, backgroundColor: colors.white, borderRadius: 12, padding: 16, justifyContent: 'space-between', flexDirection: 'row' }}
-                    >
-                    <Text style={{ color: colors.textSecondary, fontFamily: 'Poppins-Regular', fontSize: 20, fontWeight: '700', letterSpacing: 0.5 }}>{item.title} {projects.length}</Text>
-                    <Trash onPress={() => handleDeleteProject(item)} color={colors.error} size={20}  />
+                <View style={{ flexDirection: 'column', gap: 12, backgroundColor: colors.white, borderRadius: 12, padding: 16, height: 150 }}>
+                    <View
+                        style={{  justifyContent: 'space-between', flexDirection: 'row' }}
+                        >
+                        <Text style={{ flex: 3, color: colors.black, fontFamily: 'Poppins-Regular', fontSize: 16 }}>{item.title}</Text>
+                        <Trash onPress={() => handleDeleteProject(item)} color={colors.error} size={20}  />
+                    </View>
+                    <Text style={{ color: colors.textSecondary, fontFamily: 'Poppins-Regular', fontSize: 15}}>{item.description}</Text>
                 </View>
             )}
         />

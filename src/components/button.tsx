@@ -6,12 +6,18 @@ interface ButtonProps {
     onPress: () => void;
     variant?: 'primary' | 'secondary';
     icon?: React.ReactNode;
+    styleProps?: StyleProps;
 }
 
-export const Button = ({title, onPress, variant = 'primary', icon}: ButtonProps) => {
+interface StyleProps {
+    paddingVertical?: number;
+    marginTop?: number;
+}
+
+export const Button = ({title, onPress, variant = 'primary', icon, styleProps}: ButtonProps) => {
     return (
         <TouchableOpacity
-            style={getStyle(variant)}
+            style={[getStyle(variant, styleProps)]}
             onPress={onPress}
         >
             {icon && icon}
@@ -20,16 +26,18 @@ export const Button = ({title, onPress, variant = 'primary', icon}: ButtonProps)
     )
 }
 
-function getStyle(variant: string) {
+function getStyle(variant: string, styleProps?: StyleProps) {
     switch (variant) {
         case 'primary':
             return {
                 backgroundColor: colors.white,
-                paddingVertical: 8,
+                paddingVertical: styleProps?.paddingVertical ?? 12,
                 paddingHorizontal: 16,
                 borderRadius: 8,
+                marginTop: styleProps?.marginTop ?? 0,
                 flexDirection: "row" as const,
                 alignItems: "center" as const,
+                justifyContent: "center" as const,
             }
     }
 }
@@ -38,7 +46,7 @@ const style = StyleSheet.create({
     text: {
         color: colors.primary,
         fontSize: 14,
-        fontWeight: '500',
+        fontWeight: '600',
         fontFamily: 'Poppins-Regular'
     }
 })
